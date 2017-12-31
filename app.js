@@ -1,29 +1,37 @@
 const username = 'nickcrebbin@gmail.com',
-password = 'Noxb8q$U6G8#4g';
+	password = 'Noxb8q$U6G8#4g',
+	express = require('express'),
+	auth = require('./auth.js'),
+	app = express()
 
-var express = require('express');
-var auth = require('./auth.js');
+let id, token
 
-var app = express();
+app.listen(8080, function () {
+	console.log('Example app listening on port 8080')
+});
+
 app.get('/', function (req, res) {
-    authenticate();
-   
+	authenticate();
 
+	res.write('<html>');
+	res.write('<head>');
+	res.write('<title>Runscribe metrics</title>');
+	res.write('</head>');
+	res.write('<body>');
+	res.write('Authenticated');
+  res.write('</body>');
+  res.end();
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
 
-authenticate = async () => {
-    
-    let res;
-    try {
-        res = await  auth.authenticate(username, password);
-        console.log('authenticated '+ res);
-      } catch(e) {
-        console.log(e);
-      }
-
-
-};
+var authenticate = async() => {
+	let res
+	try {
+		res = await auth.authenticate(username, password)
+		id = res.data.id
+		token = res.data.token
+		console.log('authenticated ' + res)
+	} catch (e) {
+		console.log(e)
+	}
+}

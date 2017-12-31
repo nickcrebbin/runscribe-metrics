@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/nickcrebbin/runscribe-metrics#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "axios": "^0.17.1",
+    "express": "^4.16.2",
+    "standard": "^10.0.3"
   }
 }

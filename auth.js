@@ -1,11 +1,13 @@
-const url = 'https://api.runscribe.com/v2/authenticate';
+const axios = require('axios'),
+	url = 'https://api.runscribe.com/v2/authenticate'
 
-authenticate = (username, password) => {
-    return new Promise((resolve, reject) => {
-        resolve('success');
-    });
-};
+var authenticate = async(username, password) => {
+	return axios.post(url, {
+		email: username,
+		password: password
+	});
+}
 
 module.exports = {
-    authenticate: authenticate
-};
+	authenticate: authenticate
+}
