@@ -1,17 +1,19 @@
-const username = 'nickcrebbin@gmail.com',
-	password = 'Noxb8q$U6G8#4g',
+const
 	express = require('express'),
 	auth = require('./auth.js'),
-	app = express()
+  app = express(),
+  urnRuns = 'https://api.runscribe.com/v2/runs';
 
-let id, token
+let id, token, username, password;
 
 app.listen(8080, function () {
 	console.log('Example app listening on port 8080')
 });
 
 app.get('/', function (req, res) {
-	authenticate();
+	//TODO get user and password from request
+  authenticate();
+  getAccount();
 
 	res.write('<html>');
 	res.write('<head>');
@@ -34,4 +36,11 @@ var authenticate = async() => {
 	} catch (e) {
 		console.log(e)
 	}
+}
+
+var getAccount = async() => {
+	return axios.get(url, {
+		email: username,
+		password: password
+	});
 }
