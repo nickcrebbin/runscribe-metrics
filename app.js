@@ -1,44 +1,56 @@
 const
 	express = require('express'),
 	auth = require('./auth.js'),
-  app = express(),
-  urnRuns = 'https://api.runscribe.com/v2/runs';
+	app = express(),
+	urlRuns = 'https://api.runscribe.com/v2/runs';
 
-let id, token, username, password;
+let id, token, username, password, resultText;
 
 app.listen(8080, function () {
 	console.log('Example app listening on port 8080')
 });
 
-app.get('/', function (req, res) {
-	//TODO get user and password from request
-  authenticate();
-  getAccount();
+app.get('/', function (request, response) {
 
-	res.write('<html>');
-	res.write('<head>');
-	res.write('<title>Runscribe metrics</title>');
-	res.write('</head>');
-	res.write('<body>');
-	res.write('Authenticated');
-  res.write('</body>');
-  res.end();
+	username = request.query.username;
+	password = request.query.password;
+
+	if (authenticate(response)) {
+		getAccount();
+	}
 });
 
-
-var authenticate = async() => {
+authenticate = async(response) => {
 	let res
 	try {
 		res = await auth.authenticate(username, password)
 		id = res.data.id
 		token = res.data.token
+
+		writeResult(response, 'Authenticated');
 		console.log('authenticated ' + res)
+
+		return true;
+
 	} catch (e) {
 		console.log(e)
+		writeResult(response, e);
 	}
+	return false;
 }
 
-var getAccount = async() => {
+writeResult = (res, text) => {
+	res.write('<html>');
+	res.write('<head>');
+	res.write('<title>Runscribe metrics</title>');
+	res.write('</head>');
+	res.write('<body>');
+	res.write(text);
+	res.write('</body>');
+	res.end();
+};
+
+getAccount = async() => {
 	return axios.get(url, {
 		email: username,
 		password: password
