@@ -7,7 +7,7 @@ const
 let id, token, username, password, resultText;
 
 app.listen(8080, function () {
-	console.log('Example app listening on port 8080')
+	console.log('Runscribe app listening on port 8080')
 });
 
 app.get('/', function (request, response) {
